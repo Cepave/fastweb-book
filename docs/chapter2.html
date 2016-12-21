@@ -1,0 +1,426 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>將告警條件的判斷移出 plugin script · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="chapter3.html" />
+    
+    
+    <link rel="prev" href="chapter1.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    plugin 撰寫的基本原則
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    將告警條件的判斷移出 plugin script
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    plugin 上傳 git repository 的問題
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    需要特別注意的指令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    驗証與除錯
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    metric, tag 使用慣例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter7.html">
+            
+                <a href="chapter7.html">
+            
+                    
+                    counterType 的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="chapter8.html">
+            
+                <a href="chapter8.html">
+            
+                    
+                    應用 awk 來寫 plugin 
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="chapter9.html">
+            
+                <a href="chapter9.html">
+            
+                    
+                    plugin 範例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="chapter10.html">
+            
+                <a href="chapter10.html">
+            
+                    
+                    監控項正規化
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >將告警條件的判斷移出 plugin script</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x5C07;&#x544A;&#x8B66;&#x689D;&#x4EF6;&#x7684;&#x5224;&#x65B7;&#x79FB;&#x51FA;-plugin-script">&#x5C07;&#x544A;&#x8B66;&#x689D;&#x4EF6;&#x7684;&#x5224;&#x65B7;&#x79FB;&#x51FA; plugin script</h1>
+<p>&#x4E0B;&#x65B9;&#x9019;&#x500B;&#x7BC4;&#x4F8B;&#xFF0C;&#x900F;&#x904E; plugin &#x4F86;&#x53D6;&#x5F97; fastmedia &#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x7684; cpu &#x4F7F;&#x7528;&#x91CF;&#xFF0C;&#x4E26;&#x4E14;&#x6839;&#x64DA;&#x9019;&#x500B; cpu &#x4F7F;&#x7528;&#x91CF;&#x7684;&#x6578;&#x503C;&#x8F38;&#x51FA; 0 &#x6216;&#x662F; 1 &#x3002;&#x8D85;&#x904E; 90 &#x8F38;&#x51FA; 1 &#x3002;&#x5C0F;&#x65BC;&#x7B49;&#x65BC; 90 &#x8F38;&#x51FA; 0 &#x3002;&#x8CA0;&#x8CAC;&#x5BEB;&#x7BC4;&#x4F8B;&#x7684;&#x5718;&#x968A;&#x6536;&#x5230;&#x904B;&#x7DAD;&#x7684;&#x5EFA;&#x8B70;&#x5C31;&#x76F4;&#x63A5;&#x7167;&#x505A;&#x3002;&#x65BC;&#x662F;&#x5C31;&#x5BEB;&#x51FA;&#x4E86;&#x9019;&#x6A23;&#x5B50;&#x7684;&#x7A0B;&#x5F0F;&#x3002;&#x9019;&#x6A23;&#x5B50;&#x7684; plugin &#x662F;&#x5F88;&#x4E0D;&#x597D;&#x7684;&#x7BC4;&#x4F8B;&#x3002;</p>
+<p>&#x56E0;&#x70BA;&#x9019;&#x500B; plugin &#x4E00;&#x53E3;&#x6C23;&#x5C07;&#x300C;&#x6578;&#x64DA;&#x7684;&#x63A1;&#x96C6;&#x300D;&#x548C;&#x300C;&#x544A;&#x8B66;&#x689D;&#x4EF6;&#x7684;&#x5224;&#x65B7;&#x300D;&#x90FD;&#x505A;&#x5728; plugin &#x88E1;&#x4E86;&#x3002; open-falcon &#x7684;&#x544A;&#x8B66;&#x689D;&#x4EF6;&#xFF0C;&#x672C;&#x8EAB;&#x5C31;&#x53EF;&#x4EE5;&#x505A; if &#x8207;&#x6578;&#x503C;&#x6BD4;&#x8F03;&#x7684;&#x5224;&#x65B7;&#x3002;&#x4E5F;&#x56E0;&#x6B64;&#xFF0C;&#x9019;&#x500B; plugin &#x5408;&#x7406;&#x7684;&#x8F38;&#x51FA;&#xFF0C;&#x61C9;&#x8A72;&#x5C31;&#x662F;&#x76F4;&#x63A5;&#x8F38;&#x51FA;&#x300C; fastmedia &#x9019;&#x500B;&#x7A0B;&#x5E8F;&#x7684; cpu &#x4F7F;&#x7528;&#x91CF;&#x300D;&#xFF0C;&#x9019;&#x6A23;&#x5B50;&#x7684;&#x8A71;&#xFF0C; &#x904B;&#x7DAD;&#x5718;&#x968A;&#x5C31;&#x53EF;&#x4EE5;&#x900F;&#x904E; graph &#x6A21;&#x7D44;&#x4F86;&#x5C0D;&#x9019;&#x500B;&#x76E3;&#x63A7;&#x9805;&#x4F86;&#x7E6A;&#x5716;&#x3002;&#x8207; 90 &#x505A;&#x6BD4;&#x8F03;&#x7684;&#x6578;&#x503C;&#x689D;&#x4EF6;&#x5224;&#x65B7;&#xFF0C;&#x61C9;&#x8A72;&#x8981;&#x505A;&#x5728;&#x544A;&#x8B66;&#x7684;&#x7B56;&#x7565;&#x6A21;&#x677F;&#x3002;</p>
+<pre><code>#!/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+export PATH
+
+function fastmedia_worker_process()
+{
+CPUUSE=`top -bn 1 | awk &apos;/fastmedia/{count=NF-4;if($count&gt;90)print $count}&apos;`
+if [ -n &quot;$CPUUSE&quot; ];then
+    return 1
+else
+    return 0
+fi
+}
+#---------------------------------------------------------------------------------
+
+# Call function
+msg=$(fastmedia_worker_process)
+retval=$?
+date=`date +%s`
+host=$HOSTNAME
+tag=&quot;&quot;
+
+# Send JSON message
+echo &quot;[{\
+  \&quot;endpoint\&quot;   : \&quot;$host\&quot;,\
+  \&quot;tags\&quot;       : \&quot;$tag\&quot;,\
+  \&quot;timestamp\&quot;  : $date,\
+  \&quot;metric\&quot;     : \&quot;fastmedia.worker.process\&quot;,\
+  \&quot;value\&quot;      : $retval,\
+  \&quot;counterType\&quot;: \&quot;GAUGE\&quot;,\
+  \&quot;step\&quot;       : 60}]&quot;
+</code></pre><p>&#x6539;&#x6210;&#x4E0B;&#x65B9;&#x7684;&#xFF0C;&#x5C31;&#x6703;&#x597D;&#x5F88;&#x591A;&#x3002;</p>
+<pre><code>#!/bin/bash
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+export PATH
+
+function fastmedia_worker_process()
+{
+CPUUSE=`top -bn 1 | awk &apos;/fastmedia/{count=NF-4;print $count}&apos;`
+echo $CPUUSE
+}
+#---------------------------------------------------------------------------------
+
+# Call function
+msg=$(fastmedia_worker_process)
+retval=$?
+date=`date +%s`
+host=$HOSTNAME
+tag=&quot;&quot;
+
+# Send JSON message
+echo &quot;[{\
+  \&quot;endpoint\&quot;   : \&quot;$host\&quot;,\
+  \&quot;tags\&quot;       : \&quot;$tag\&quot;,\
+  \&quot;timestamp\&quot;  : $date,\
+  \&quot;metric\&quot;     : \&quot;fastmedia.worker.process\&quot;,\
+  \&quot;value\&quot;      : $msg,\
+  \&quot;counterType\&quot;: \&quot;GAUGE\&quot;,\
+  \&quot;step\&quot;       : 60}]&quot;
+</code></pre>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="chapter1.html" class="navigation navigation-prev " aria-label="Previous page: plugin 撰寫的基本原則">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="chapter3.html" class="navigation navigation-next " aria-label="Next page: plugin 上傳 git repository 的問題">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"將告警條件的判斷移出 plugin script","level":"1.3","depth":1,"next":{"title":"plugin 上傳 git repository 的問題","level":"1.4","depth":1,"path":"chapter3.md","ref":"chapter3.md","articles":[]},"previous":{"title":"plugin 撰寫的基本原則","level":"1.2","depth":1,"path":"chapter1.md","ref":"chapter1.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2.md","mtime":"2016-12-21T06:24:51.160Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2016-12-21T06:55:06.720Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
